@@ -1,1 +1,4766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JX CHAT</title>
 
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:#05051a;
+  color:white;
+  overflow:hidden;
+}
+
+.screen{
+  width:100%;
+  max-width:430px;
+  min-height:100vh;
+  margin:auto;
+  position:relative;
+  background:
+    radial-gradient(circle at 10% 5%,#4b20d8,transparent 30%),
+    radial-gradient(circle at 90% 90%,#3020c9,transparent 35%),
+    linear-gradient(145deg,#08082b,#090018);
+}
+
+/* =========================
+   COMMON
+========================= */
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   SPLASH
+========================= */
+
+#splash{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.logo{
+  width:145px;
+  height:145px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:58px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#d52cff,#613cff,#00cfff);
+  box-shadow:0 0 25px #8b35ff,0 0 60px #4433ff;
+  margin-bottom:28px;
+}
+
+.name{
+  font-size:42px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.name span,
+.brand span{
+  background:linear-gradient(90deg,#d52cff,#00cfff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.tagline{
+  margin-top:12px;
+  color:#c9c9e8;
+  font-size:15px;
+  letter-spacing:3px;
+}
+
+.start{
+  position:absolute;
+  bottom:100px;
+  width:72%;
+  padding:17px;
+  border:none;
+  border-radius:40px;
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#a719ff,#244cff,#00bfff);
+  box-shadow:0 0 25px #6c36ff;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#login,
+#register{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  padding:35px;
+}
+
+.login-logo{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 25px;
+  font-size:35px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#d52cff,#613cff,#00cfff);
+  box-shadow:0 0 30px #713cff;
+}
+
+.login-title{
+  text-align:center;
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:#aaaac8;
+  margin-bottom:35px;
+}
+
+.input{
+  width:100%;
+  padding:16px;
+  margin-bottom:15px;
+  border:1px solid #37375f;
+  border-radius:14px;
+  outline:none;
+  background:#11112f;
+  color:white;
+  font-size:16px;
+}
+
+.input::placeholder{
+  color:#77779c;
+}
+
+.input:focus{
+  border-color:#9a3cff;
+  box-shadow:0 0 10px #5d32ff;
+}
+
+.login-btn{
+  width:100%;
+  padding:16px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(90deg,#a719ff,#244cff,#00bfff);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.create{
+  text-align:center;
+  margin-top:25px;
+  color:#b9b9d8;
+  font-size:15px;
+}
+
+.create-link,
+.message button{
+  background:none;
+  border:none;
+  color:#b83cff;
+  font-weight:bold;
+}
+
+.back{
+  position:absolute;
+  top:25px;
+  left:25px;
+  color:#aaaac8;
+  cursor:pointer;
+  font-size:16px;
+  z-index:10;
+}
+
+.message{
+  text-align:center;
+  margin-top:22px;
+  color:#b9b9d8;
+  font-size:14px;
+}
+
+/* =========================
+   HOME
+========================= */
+
+#home{
+  display:none;
+  flex-direction:column;
+  padding:0;
+  overflow:hidden;
+}
+
+.home-header{
+  padding:25px 20px 12px;
+}
+
+.top-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand{
+  font-size:28px;
+  font-weight:800;
+}
+
+.profile-button{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:2px solid #9d4dff;
+  background:linear-gradient(135deg,#a719ff,#244cff);
+  color:white;
+  font-size:14px;
+  font-weight:bold;
+  overflow:hidden;
+  box-shadow:0 0 15px #713cff;
+}
+
+.profile-button img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.welcome{
+  margin-top:8px;
+  color:#aaaac8;
+  font-size:14px;
+}
+
+.home-note{
+  margin-top:10px;
+  color:#d4cfff;
+  font-size:13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.search-box{
+  margin:10px 20px 10px;
+  display:flex;
+  align-items:center;
+  background:#11112f;
+  border:1px solid #37375f;
+  border-radius:15px;
+  padding:0 15px;
+}
+
+.search-icon{
+  font-size:18px;
+  margin-right:8px;
+}
+
+.search-input{
+  width:100%;
+  padding:14px 0;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:white;
+  font-size:15px;
+}
+
+.search-input::placeholder{
+  color:#77779c;
+}
+
+/* STORIES */
+
+.story-area{
+  padding:5px 15px 10px;
+}
+
+.story-title{
+  color:#aaaac8;
+  font-size:13px;
+  font-weight:bold;
+  margin:5px 5px 10px;
+}
+
+.stories{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding-bottom:5px;
+}
+
+.story-card{
+  min-width:72px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.story-photo{
+  width:60px;
+  height:60px;
+  margin:auto;
+  border-radius:50%;
+  border:3px solid #a719ff;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#a719ff,#244cff);
+  font-weight:bold;
+}
+
+.story-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.story-card small{
+  display:block;
+  color:#aaaac8;
+  margin-top:5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.chat-area{
+  flex:1;
+  overflow-y:auto;
+  padding:0 12px 100px;
+}
+
+.section-title{
+  padding:8px;
+  color:#aaaac8;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.chat-item{
+  display:flex;
+  align-items:center;
+  padding:12px 8px;
+  border-radius:16px;
+  cursor:pointer;
+}
+
+.chat-item:hover{
+  background:rgba(130,60,255,.15);
+}
+
+.avatar{
+  width:54px;
+  height:54px;
+  flex-shrink:0;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#d52cff,#613cff,#00cfff);
+  font-size:19px;
+  font-weight:bold;
+  position:relative;
+  overflow:hidden;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.online{
+  position:absolute;
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:#25e67a;
+  border:3px solid #0b0b28;
+  right:0;
+  bottom:1px;
+}
+
+.chat-info{
+  flex:1;
+  min-width:0;
+  margin-left:13px;
+}
+
+.chat-name{
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.last-message{
+  color:#9999bb;
+  font-size:13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.chat-time{
+  color:#77779c;
+  font-size:11px;
+  align-self:flex-start;
+  margin-top:4px;
+}
+
+.unread{
+  min-width:21px;
+  height:21px;
+  padding:0 5px;
+  border-radius:20px;
+  background:#b52cff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:10px;
+  margin-left:5px;
+}
+
+.new-chat{
+  position:absolute;
+  right:20px;
+  bottom:80px;
+  width:58px;
+  height:58px;
+  border:none;
+  border-radius:50%;
+  background:linear-gradient(135deg,#d52cff,#244cff,#00bfff);
+  color:white;
+  font-size:30px;
+  box-shadow:0 0 25px #713cff;
+}
+
+.bottom-nav{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  background:rgba(7,7,31,.96);
+  border-top:1px solid #292955;
+}
+
+.nav-button{
+  background:none;
+  border:none;
+  color:#8585a9;
+  font-size:22px;
+}
+
+.nav-button.active{
+  color:#bd45ff;
+  text-shadow:0 0 12px #9c36ff;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+#profile{
+  display:none;
+  flex-direction:column;
+  padding:25px 22px;
+  overflow-y:auto;
+}
+
+.profile-top{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.profile-back{
+  background:none;
+  border:none;
+  color:white;
+  font-size:25px;
+}
+
+.profile-heading{
+  font-size:25px;
+  font-weight:bold;
+}
+
+.profile-pfp-area{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.big-pfp{
+  width:125px;
+  height:125px;
+  border-radius:50%;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#d52cff,#613cff,#00cfff);
+  font-size:40px;
+  font-weight:bold;
+  overflow:hidden;
+  border:3px solid #a34cff;
+  box-shadow:0 0 30px #713cff;
+}
+
+.big-pfp img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.change-photo{
+  margin-top:15px;
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  color:white;
+  background:#5222a8;
+}
+
+.profile-card{
+  background:rgba(17,17,47,.85);
+  border:1px solid #37375f;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.profile-label{
+  color:#8585aa;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.edit-input{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid #45456d;
+  background:#0d0d2b;
+  color:white;
+  outline:none;
+  font-size:16px;
+}
+
+.note-input{
+  resize:none;
+  min-height:80px;
+}
+
+.save-profile{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  background:linear-gradient(90deg,#a719ff,#244cff,#00bfff);
+  box-shadow:0 0 20px #542cff;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-page{
+  display:none;
+  position:absolute;
+  inset:0;
+  background:#08082b;
+  z-index:50;
+  padding:25px 20px;
+  overflow-y:auto;
+}
+
+.settings-title{
+  font-size:26px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+
+.setting-item{
+  background:#11112f;
+  border:1px solid #37375f;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.setting-item span{
+  color:#ddd;
+}
+
+.setting-btn{
+  border:none;
+  padding:9px 14px;
+  border-radius:15px;
+  color:white;
+  background:#5422a8;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+#chat{
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.chat-header{
+  height:75px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 15px;
+  background:rgba(8,8,35,.96);
+  border-bottom:1px solid #292955;
+}
+
+.chat-back{
+  background:none;
+  border:none;
+  color:white;
+  font-size:25px;
+}
+
+.chat-avatar{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#d52cff,#613cff,#00cfff);
+  font-weight:bold;
+  position:relative;
+  overflow:hidden;
+}
+
+.chat-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.chat-user-info{
+  flex:1;
+}
+
+.chat-user-name{
+  font-size:17px;
+  font-weight:bold;
+}
+
+.chat-status{
+  color:#25e67a;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.typing{
+  color:#6daaff;
+}
+
+.chat-more{
+  background:none;
+  border:none;
+  color:white;
+  font-size:23px;
+}
+
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 15px 15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.chat-date{
+  text-align:center;
+  color:#77779c;
+  font-size:11px;
+  margin-bottom:10px;
+}
+
+.message-row{
+  display:flex;
+  position:relative;
+}
+
+.message-row.me{
+  justify-content:flex-end;
+}
+
+.message-row.them{
+  justify-content:flex-start;
+}
+
+.bubble{
+  position:relative;
+  max-width:75%;
+  padding:11px 15px;
+  border-radius:18px;
+  font-size:14px;
+  line-height:1.4;
+  word-wrap:break-word;
+  cursor:pointer;
+}
+
+.message-row.them .bubble{
+  background:#202044;
+  border-bottom-left-radius:5px;
+}
+
+.message-row.me .bubble{
+  background:linear-gradient(135deg,#9d25e8,#3154ef);
+  border-bottom-right-radius:5px;
+}
+
+.message-time{
+  font-size:9px;
+  color:#b0b0cc;
+  margin-top:4px;
+  text-align:right;
+}
+
+.reaction-display{
+  position:absolute;
+  right:-5px;
+  bottom:-11px;
+  background:#171737;
+  border:2px solid #292955;
+  border-radius:20px;
+  padding:2px 6px;
+  font-size:14px;
+  min-height:20px;
+}
+
+.reply-box{
+  background:rgba(0,0,0,.18);
+  border-left:3px solid #c34cff;
+  padding:6px 8px;
+  border-radius:6px;
+  margin-bottom:7px;
+  font-size:11px;
+  opacity:.85;
+}
+
+.photo-message{
+  max-width:230px;
+  max-height:300px;
+  border-radius:15px;
+  display:block;
+}
+
+.file-message{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  background:rgba(0,0,0,.15);
+  border-radius:12px;
+}
+
+.file-icon{
+  font-size:25px;
+}
+
+.file-name{
+  max-width:180px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.audio-message{
+  width:200px;
+}
+
+.reply-preview{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 15px;
+  background:#151535;
+  border-top:1px solid #37375f;
+  border-left:3px solid #a719ff;
+}
+
+.reply-preview small{
+  color:#a8a8c8;
+}
+
+.reply-preview div div{
+  color:white;
+  font-size:13px;
+  margin-top:3px;
+  max-width:300px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.reply-preview button{
+  background:none;
+  border:none;
+  color:#aaaac8;
+  font-size:20px;
+}
+
+.chat-input-area{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:10px;
+  background:rgba(8,8,35,.98);
+  border-top:1px solid #292955;
+}
+
+.attach-button{
+  width:40px;
+  height:40px;
+  flex-shrink:0;
+  border:none;
+  border-radius:50%;
+  background:#202044;
+  color:white;
+  font-size:18px;
+}
+
+.chat-input{
+  flex:1;
+  min-width:0;
+  padding:13px 15px;
+  border:none;
+  outline:none;
+  border-radius:25px;
+  background:#171737;
+  color:white;
+  font-size:14px;
+}
+
+.send-button{
+  width:45px;
+  height:45px;
+  flex-shrink:0;
+  border:none;
+  border-radius:50%;
+  background:linear-gradient(135deg,#d52cff,#244cff);
+  color:white;
+  font-size:20px;
+  box-shadow:0 0 15px #713cff;
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.modal{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.82);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  width:100%;
+  max-width:390px;
+  background:#11112f;
+  border:1px solid #37375f;
+  border-radius:22px;
+  padding:22px;
+  text-align:center;
+}
+
+.modal-box h2{
+  margin-bottom:15px;
+}
+
+.modal-close{
+  margin-top:15px;
+  border:none;
+  padding:12px 25px;
+  border-radius:20px;
+  background:#5422a8;
+  color:white;
+}
+
+/* STORY */
+
+.story-view img{
+  max-width:100%;
+  max-height:55vh;
+  border-radius:18px;
+}
+
+.story-text{
+  margin-top:10px;
+  color:#aaaac8;
+}
+
+/* GAMES */
+
+.game-buttons{
+  display:grid;
+  gap:10px;
+}
+
+.game-buttons button{
+  padding:13px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(90deg,#7b25d7,#3154ef);
+  color:white;
+}
+
+.game-result{
+  margin-top:15px;
+  min-height:30px;
+}
+
+/* LIGHT MODE */
+
+body.light .screen{
+  background:
+    radial-gradient(circle at 10% 5%,#c7a8ff,transparent 30%),
+    radial-gradient(circle at 90% 90%,#a7b8ff,transparent 35%),
+    linear-gradient(145deg,#f3f2ff,#e9e8ff);
+  color:#111;
+}
+
+body.light .chat-item:hover{
+  background:#ddd8ff;
+}
+
+body.light .search-box,
+body.light .input,
+body.light .edit-input,
+body.light .profile-card,
+body.light .setting-item,
+body.light .modal-box,
+body.light .settings-page{
+  background:#ffffff;
+  color:#111;
+}
+
+body.light .search-input,
+body.light .chat-input,
+body.light .edit-input{
+  color:#111;
+}
+
+body.light .bottom-nav,
+body.light .chat-header,
+body.light .chat-input-area{
+  background:rgba(255,255,255,.95);
+  color:#111;
+}
+
+body.light .chat-back,
+body.light .chat-more,
+body.light .profile-back{
+  color:#111;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-height:700px){
+
+  #register{
+    justify-content:flex-start;
+    padding-top:70px;
+  }
+
+  .input{
+    padding:13px;
+    margin-bottom:10px;
+  }
+
+  .login-btn{
+    padding:14px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     SPLASH
+========================= -->
+
+<div id="splash" class="screen">
+
+  <div class="logo">JX</div>
+
+  <div class="name">
+    <span>JX</span> CHAT
+  </div>
+
+  <div class="tagline">
+    Connect. Chat. Share.
+  </div>
+
+  <button class="start" onclick="openLogin()">
+    START →
+  </button>
+
+</div>
+
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div id="login" class="screen">
+
+  <div class="back" onclick="goBack()">
+    ← Back
+  </div>
+
+  <div class="login-logo">
+    JX
+  </div>
+
+  <h1 class="login-title">
+    Welcome to JX CHAT
+  </h1>
+
+  <p class="login-subtitle">
+    Login to continue chatting
+  </p>
+
+  <input
+    id="loginUsername"
+    class="input"
+    type="text"
+    placeholder="Username"
+  >
+
+  <input
+    id="loginPassword"
+    class="input"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button class="login-btn" onclick="login()">
+    LOGIN
+  </button>
+
+  <div class="create">
+    Don't have an account?
+
+    <button
+      class="create-link"
+      onclick="openCreateAccount()"
+    >
+      Create Account
+    </button>
+  </div>
+
+</div>
+
+
+<!-- =========================
+     REGISTER
+========================= -->
+
+<div id="register" class="screen">
+
+  <div class="back" onclick="backToLogin()">
+    ← Back
+  </div>
+
+  <div class="login-logo">
+    JX
+  </div>
+
+  <h1 class="login-title">
+    Create Account
+  </h1>
+
+  <p class="login-subtitle">
+    Join JX CHAT today
+  </p>
+
+  <input
+    id="registerUsername"
+    class="input"
+    type="text"
+    placeholder="Username"
+  >
+
+  <input
+    id="registerEmail"
+    class="input"
+    type="email"
+    placeholder="Email"
+  >
+
+  <input
+    id="registerPassword"
+    class="input"
+    type="password"
+    placeholder="Password"
+  >
+
+  <input
+    id="registerConfirm"
+    class="input"
+    type="password"
+    placeholder="Confirm Password"
+  >
+
+  <button
+    class="login-btn"
+    onclick="createAccount()"
+  >
+    CREATE ACCOUNT
+  </button>
+
+  <div class="message">
+    Already have an account?
+
+    <button onclick="backToLogin()">
+      Login
+    </button>
+  </div>
+
+</div>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<div id="home" class="screen">
+
+  <div class="home-header">
+
+    <div class="top-row">
+
+      <div class="brand">
+        <span>JX</span> CHAT
+      </div>
+
+      <button
+        class="profile-button"
+        onclick="openProfile()"
+        id="homePfp"
+      >
+        JX
+      </button>
+
+    </div>
+
+    <div
+      class="welcome"
+      id="welcomeText"
+    >
+      Welcome back 👋
+    </div>
+
+    <div
+      class="home-note"
+      id="homeNote"
+    >
+      No note yet.
+    </div>
+
+  </div>
+
+
+  <div class="search-box">
+
+    <div class="search-icon">
+      🔎
+    </div>
+
+    <input
+      id="searchInput"
+      class="search-input"
+      placeholder="Search chats..."
+      oninput="searchChats()"
+    >
+
+  </div>
+
+
+  <!-- STORIES -->
+
+  <div class="story-area">
+
+    <div class="story-title">
+      STORIES
+    </div>
+
+    <div class="stories">
+
+      <div
+        class="story-card"
+        onclick="addStory()"
+      >
+
+        <div class="story-photo">
+          ＋
+        </div>
+
+        <small>
+          Your Story
+        </small>
+
+      </div>
+
+
+      <div
+        class="story-card"
+        onclick="viewStory()"
+      >
+
+        <div
+          class="story-photo"
+          id="storyAvatar"
+        >
+          JX
+        </div>
+
+        <small>
+          JX Story
+        </small>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="chat-area">
+
+    <div class="section-title">
+      RECENT CHATS
+    </div>
+
+
+    <div
+      class="chat-item"
+      data-name="JX Friend"
+      onclick="openChat('JX Friend')"
+    >
+
+      <div class="avatar">
+        JF
+        <div class="online"></div>
+      </div>
+
+      <div class="chat-info">
+
+        <div class="chat-name">
+          JX Friend
+        </div>
+
+        <div
+          class="last-message"
+          id="last-JX-Friend"
+        >
+          Hey! Welcome to JX CHAT 💜
+        </div>
+
+      </div>
+
+      <div
+        class="chat-time"
+        id="time-JX-Friend"
+      >
+        Now
+      </div>
+
+      <div
+        class="unread"
+        id="unread-JX-Friend"
+        style="display:none"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div
+      class="chat-item"
+      data-name="John"
+      onclick="openChat('John')"
+    >
+
+      <div class="avatar">
+        JO
+        <div class="online"></div>
+      </div>
+
+      <div class="chat-info">
+
+        <div class="chat-name">
+          John
+        </div>
+
+        <div
+          class="last-message"
+          id="last-John"
+        >
+          See you later!
+        </div>
+
+      </div>
+
+      <div
+        class="chat-time"
+        id="time-John"
+      >
+        5m
+      </div>
+
+    </div>
+
+
+    <div
+      class="chat-item"
+      data-name="JX Team"
+      onclick="openChat('JX Team')"
+    >
+
+      <div class="avatar">
+        JT
+      </div>
+
+      <div class="chat-info">
+
+        <div class="chat-name">
+          JX Team
+        </div>
+
+        <div
+          class="last-message"
+          id="last-JX-Team"
+        >
+          Welcome to the group
+        </div>
+
+      </div>
+
+      <div
+        class="chat-time"
+        id="time-JX-Team"
+      >
+        1h
+      </div>
+
+    </div>
+
+
+    <div
+      id="dynamicChats"
+    ></div>
+
+
+    <div
+      id="emptyMessage"
+      class="empty-message"
+      style="display:none"
+    >
+      No chats found 🔎
+    </div>
+
+  </div>
+
+
+  <button
+    class="new-chat"
+    onclick="newChat()"
+  >
+    +
+  </button>
+
+
+  <div class="bottom-nav">
+
+    <button
+      class="nav-button active"
+      onclick="homeNav()"
+    >
+      💬
+    </button>
+
+    <button
+      class="nav-button"
+      onclick="friendsNav()"
+    >
+      👥
+    </button>
+
+    <button
+      class="nav-button"
+      onclick="settingsNav()"
+    >
+      ⚙️
+    </button>
+
+  </div>
+
+
+  <!-- SETTINGS -->
+
+  <div
+    id="settingsPage"
+    class="settings-page"
+  >
+
+    <button
+      class="profile-back"
+      onclick="closeSettings()"
+    >
+      ←
+    </button>
+
+    <div class="settings-title">
+      ⚙️ Settings
+    </div>
+
+    <div class="setting-item">
+
+      <span>
+        🌙 Dark / Light Mode
+      </span>
+
+      <button
+        class="setting-btn"
+        onclick="toggleTheme()"
+      >
+        Toggle
+      </button>
+
+    </div>
+
+    <div class="setting-item">
+
+      <span>
+        🔔 Notifications
+      </span>
+
+      <button
+        class="setting-btn"
+        onclick="testNotification()"
+      >
+        Test
+      </button>
+
+    </div>
+
+    <div class="setting-item">
+
+      <span>
+        🗑️ Clear All Local Data
+      </span>
+
+      <button
+        class="setting-btn"
+        onclick="clearAllData()"
+      >
+        Clear
+      </button>
+
+    </div>
+
+    <div class="setting-item">
+
+      <span>
+        🎮 Mini Games
+      </span>
+
+      <button
+        class="setting-btn"
+        onclick="openGames()"
+      >
+        Play
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     PROFILE
+========================= -->
+
+<div id="profile" class="screen">
+
+  <div class="profile-top">
+
+    <button
+      class="profile-back"
+      onclick="closeProfile()"
+    >
+      ←
+    </button>
+
+    <div class="profile-heading">
+      My Profile
+    </div>
+
+  </div>
+
+
+  <div class="profile-pfp-area">
+
+    <div
+      class="big-pfp"
+      id="bigPfp"
+    >
+      JX
+    </div>
+
+    <input
+      type="file"
+      id="photoInput"
+      accept="image/*"
+      style="display:none"
+      onchange="changePhoto(event)"
+    >
+
+    <button
+      class="change-photo"
+      onclick="document.getElementById('photoInput').click()"
+    >
+      📷 Change Photo
+    </button>
+
+  </div>
+
+
+  <div class="profile-card">
+
+    <div class="profile-label">
+      USERNAME
+    </div>
+
+    <div
+      id="profileUsername"
+      style="font-size:16px;"
+    >
+      @username
+    </div>
+
+  </div>
+
+
+  <div class="profile-card">
+
+    <div class="profile-label">
+      NICKNAME
+    </div>
+
+    <input
+      id="nicknameInput"
+      class="edit-input"
+      type="text"
+      placeholder="Enter nickname"
+    >
+
+  </div>
+
+
+  <div class="profile-card">
+
+    <div class="profile-label">
+      NOTE / STATUS
+    </div>
+
+    <textarea
+      id="noteInput"
+      class="edit-input note-input"
+      maxlength="100"
+      placeholder="What's on your mind?"
+    ></textarea>
+
+  </div>
+
+
+  <button
+    class="save-profile"
+    onclick="saveProfile()"
+  >
+    SAVE CHANGES
+  </button>
+
+</div>
+
+
+<!-- =========================
+     CHAT
+========================= -->
+
+<div id="chat" class="screen">
+
+  <div class="chat-header">
+
+    <button
+      class="chat-back"
+      onclick="closeChat()"
+    >
+      ←
+    </button>
+
+    <div
+      class="chat-avatar"
+      id="chatAvatar"
+    >
+      JF
+    </div>
+
+    <div class="chat-user-info">
+
+      <div
+        class="chat-user-name"
+        id="chatUserName"
+      >
+        JX Friend
+      </div>
+
+      <div
+        class="chat-status"
+        id="chatStatus"
+      >
+        ● Online
+      </div>
+
+    </div>
+
+    <button
+      class="chat-more"
+      onclick="chatOptions()"
+    >
+      ⋮
+    </button>
+
+  </div>
+
+
+  <div
+    class="messages"
+    id="messages"
+  ></div>
+
+
+  <!-- REPLY -->
+
+  <div
+    id="replyPreview"
+    class="reply-preview"
+    style="display:none;"
+  >
+
+    <div>
+
+      <small>
+        Replying to
+      </small>
+
+      <div id="replyText"></div>
+
+    </div>
+
+    <button onclick="cancelReply()">
+      ✕
+    </button>
+
+  </div>
+
+
+  <!-- INPUT -->
+
+  <div class="chat-input-area">
+
+    <button
+      class="attach-button"
+      onclick="document.getElementById('photoInputChat').click()"
+    >
+      📷
+    </button>
+
+    <button
+      class="attach-button"
+      onclick="document.getElementById('fileInputChat').click()"
+    >
+      📎
+    </button>
+
+    <button
+      class="attach-button"
+      onclick="recordVoice()"
+      id="voiceButton"
+    >
+      🎤
+    </button>
+
+    <input
+      type="file"
+      id="photoInputChat"
+      accept="image/*"
+      style="display:none"
+      onchange="sendPhoto(event)"
+    >
+
+    <input
+      type="file"
+      id="fileInputChat"
+      style="display:none"
+      onchange="sendFile(event)"
+    >
+
+    <input
+      id="chatInput"
+      class="chat-input"
+      type="text"
+      placeholder="Type a message..."
+      onkeydown="handleEnter(event)"
+    >
+
+    <button
+      class="send-button"
+      onclick="sendMessage()"
+    >
+      ➤
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     STORY MODAL
+========================= -->
+
+<div
+  id="storyModal"
+  class="modal"
+>
+
+  <div class="modal-box story-view">
+
+    <h2>🟣 JX STORY</h2>
+
+    <img
+      id="storyImage"
+      style="display:none;"
+    >
+
+    <div
+      id="storyNoImage"
+      class="story-text"
+    >
+      No story yet.
+    </div>
+
+    <button
+      class="modal-close"
+      onclick="closeStory()"
+    >
+      CLOSE
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     GAMES MODAL
+========================= -->
+
+<div
+  id="gamesModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <h2>
+      🎮 JX MINI GAMES
+    </h2>
+
+    <div class="game-buttons">
+
+      <button onclick="rps()">
+        ✊ Rock Paper Scissors
+      </button>
+
+      <button onclick="quiz()">
+        🧠 JX Quiz
+      </button>
+
+      <button onclick="ticTacToe()">
+        🎯 Tic-Tac-Toe
+      </button>
+
+    </div>
+
+    <div
+      id="gameResult"
+      class="game-result"
+    ></div>
+
+    <button
+      class="modal-close"
+      onclick="closeGames()"
+    >
+      CLOSE
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   JX CHAT
+   LOCAL / GITHUB PAGES VERSION
+================================================== */
+
+let currentChat = "";
+let replyingTo = "";
+let mediaRecorder = null;
+let voiceChunks = [];
+
+
+/* ==================================================
+   SCREEN CONTROL
+================================================== */
+
+function hideAll(){
+
+  document.getElementById("splash").style.display="none";
+  document.getElementById("login").style.display="none";
+  document.getElementById("register").style.display="none";
+  document.getElementById("home").style.display="none";
+  document.getElementById("profile").style.display="none";
+  document.getElementById("chat").style.display="none";
+
+}
+
+
+function openLogin(){
+
+  hideAll();
+
+  document.getElementById("login").style.display="flex";
+
+}
+
+
+function goBack(){
+
+  hideAll();
+
+  document.getElementById("splash").style.display="flex";
+
+}
+
+
+function openCreateAccount(){
+
+  hideAll();
+
+  document.getElementById("register").style.display="flex";
+
+}
+
+
+function backToLogin(){
+
+  hideAll();
+
+  document.getElementById("login").style.display="flex";
+
+}
+
+
+/* ==================================================
+   ACCOUNT
+================================================== */
+
+function login(){
+
+  const username =
+    document.getElementById(
+      "loginUsername"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
+
+  if(
+    username==="" ||
+    password===""
+  ){
+
+    alert(
+      "Please enter your username and password."
+    );
+
+    return;
+  }
+
+  localStorage.setItem(
+    "jxUsername",
+    username
+  );
+
+  if(
+    !localStorage.getItem("jxNickname")
+  ){
+
+    localStorage.setItem(
+      "jxNickname",
+      username
+    );
+
+  }
+
+  showHome();
+
+}
+
+
+function createAccount(){
+
+  const username =
+    document.getElementById(
+      "registerUsername"
+    ).value.trim();
+
+  const email =
+    document.getElementById(
+      "registerEmail"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "registerPassword"
+    ).value;
+
+  const confirmPassword =
+    document.getElementById(
+      "registerConfirm"
+    ).value;
+
+
+  if(
+    username==="" ||
+    email==="" ||
+    password==="" ||
+    confirmPassword===""
+  ){
+
+    alert(
+      "Please fill in all fields."
+    );
+
+    return;
+  }
+
+
+  if(!email.includes("@")){
+
+    alert(
+      "Please enter a valid email address."
+    );
+
+    return;
+  }
+
+
+  if(password!==confirmPassword){
+
+    alert(
+      "Passwords do not match."
+    );
+
+    return;
+  }
+
+
+  if(password.length<6){
+
+    alert(
+      "Password must be at least 6 characters."
+    );
+
+    return;
+  }
+
+
+  localStorage.setItem(
+    "jxUsername",
+    username
+  );
+
+  localStorage.setItem(
+    "jxEmail",
+    email
+  );
+
+  localStorage.setItem(
+    "jxNickname",
+    username
+  );
+
+
+  alert(
+    "Account created successfully! 💜💙"
+  );
+
+
+  document.getElementById(
+    "loginUsername"
+  ).value=username;
+
+
+  document.getElementById(
+    "loginPassword"
+  ).value="";
+
+
+  backToLogin();
+
+}
+
+
+/* ==================================================
+   HOME
+================================================== */
+
+function showHome(){
+
+  hideAll();
+
+  document.getElementById(
+    "home"
+  ).style.display="flex";
+
+  loadProfile();
+
+  loadDynamicChats();
+
+  updateHomeChats();
+
+}
+
+
+function homeNav(){
+
+  document.getElementById(
+    "settingsPage"
+  ).style.display="none";
+
+  showHome();
+
+}
+
+
+/* ==================================================
+   PROFILE
+================================================== */
+
+function loadProfile(){
+
+  const username =
+    localStorage.getItem(
+      "jxUsername"
+    ) || "JX User";
+
+  const nickname =
+    localStorage.getItem(
+      "jxNickname"
+    ) || username;
+
+  const note =
+    localStorage.getItem(
+      "jxNote"
+    ) || "";
+
+
+  document.getElementById(
+    "welcomeText"
+  ).textContent =
+    "Welcome back, " +
+    nickname +
+    " 👋";
+
+
+  document.getElementById(
+    "homeNote"
+  ).textContent =
+    note
+    ? "📝 " + note
+    : "No note yet. Add a note from your profile.";
+
+
+  document.getElementById(
+    "nicknameInput"
+  ).value=nickname;
+
+
+  document.getElementById(
+    "noteInput"
+  ).value=note;
+
+
+  document.getElementById(
+    "profileUsername"
+  ).textContent =
+    "@" + username;
+
+
+  updatePfp();
+
+}
+
+
+function openProfile(){
+
+  hideAll();
+
+  document.getElementById(
+    "profile"
+  ).style.display="flex";
+
+  loadProfile();
+
+}
+
+
+function closeProfile(){
+
+  showHome();
+
+}
+
+
+function saveProfile(){
+
+  const nickname =
+    document.getElementById(
+      "nicknameInput"
+    ).value.trim();
+
+  const note =
+    document.getElementById(
+      "noteInput"
+    ).value.trim();
+
+
+  if(nickname===""){
+
+    alert(
+      "Please enter a nickname."
+    );
+
+    return;
+  }
+
+
+  localStorage.setItem(
+    "jxNickname",
+    nickname
+  );
+
+  localStorage.setItem(
+    "jxNote",
+    note
+  );
+
+
+  alert(
+    "Profile updated successfully! 💜💙"
+  );
+
+
+  showHome();
+
+}
+
+
+/* ==================================================
+   PROFILE PHOTO
+================================================== */
+
+function changePhoto(event){
+
+  const file =
+    event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+
+  if(!file.type.startsWith("image/")){
+
+    alert(
+      "Please select an image."
+    );
+
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload=function(e){
+
+    localStorage.setItem(
+      "jxPfp",
+      e.target.result
+    );
+
+    updatePfp();
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function updatePfp(){
+
+  const pfp =
+    localStorage.getItem(
+      "jxPfp"
+    );
+
+
+  const homePfp =
+    document.getElementById(
+      "homePfp"
+    );
+
+  const bigPfp =
+    document.getElementById(
+      "bigPfp"
+    );
+
+  const storyAvatar =
+    document.getElementById(
+      "storyAvatar"
+    );
+
+
+  if(pfp){
+
+    homePfp.innerHTML =
+      '<img src="' +
+      pfp +
+      '">';
+
+    bigPfp.innerHTML =
+      '<img src="' +
+      pfp +
+      '">';
+
+    storyAvatar.innerHTML =
+      '<img src="' +
+      pfp +
+      '">';
+
+  }else{
+
+    homePfp.innerHTML="JX";
+
+    bigPfp.innerHTML="JX";
+
+    storyAvatar.innerHTML="JX";
+
+  }
+
+}
+
+
+/* ==================================================
+   SEARCH
+================================================== */
+
+function searchChats(){
+
+  const search =
+    document.getElementById(
+      "searchInput"
+    ).value.toLowerCase();
+
+
+  const chats =
+    document.querySelectorAll(
+      ".chat-item"
+    );
+
+
+  let found=0;
+
+
+  chats.forEach(function(chat){
+
+    const name =
+      (
+        chat.getAttribute(
+          "data-name"
+        ) || ""
+      ).toLowerCase();
+
+
+    if(name.includes(search)){
+
+      chat.style.display="flex";
+
+      found++;
+
+    }else{
+
+      chat.style.display="none";
+
+    }
+
+  });
+
+
+  document.getElementById(
+    "emptyMessage"
+  ).style.display =
+    found===0
+    ? "block"
+    : "none";
+
+}
+
+
+/* ==================================================
+   CHAT STORAGE
+================================================== */
+
+function chatKey(name){
+
+  return (
+    "jx_chat_" +
+    encodeURIComponent(name)
+  );
+
+}
+
+
+function getMessages(name){
+
+  return JSON.parse(
+    localStorage.getItem(
+      chatKey(name)
+    ) || "[]"
+  );
+
+}
+
+
+function saveMessages(name,messages){
+
+  localStorage.setItem(
+    chatKey(name),
+    JSON.stringify(messages)
+  );
+
+}
+
+
+/* ==================================================
+   OPEN CHAT
+================================================== */
+
+function openChat(name){
+
+  hideAll();
+
+  document.getElementById(
+    "chat"
+  ).style.display="flex";
+
+
+  currentChat=name;
+
+
+  document.getElementById(
+    "chatUserName"
+  ).textContent=name;
+
+
+  const avatar =
+    document.getElementById(
+      "chatAvatar"
+    );
+
+
+  if(name==="John"){
+
+    avatar.textContent="JO";
+
+  }
+
+  else if(name==="JX Team"){
+
+    avatar.textContent="JT";
+
+  }
+
+  else if(name==="JX Friend"){
+
+    avatar.textContent="JF";
+
+  }
+
+  else{
+
+    avatar.textContent =
+      getInitials(name);
+
+  }
+
+
+  cancelReply();
+
+  loadMessages();
+
+
+  document.getElementById(
+    "chatInput"
+  ).focus();
+
+
+  clearUnread(name);
+
+}
+
+
+function getInitials(name){
+
+  return name
+    .split(" ")
+    .map(
+      x => x.charAt(0)
+    )
+    .join("")
+    .substring(0,2)
+    .toUpperCase();
+
+}
+
+
+/* ==================================================
+   LOAD MESSAGES
+================================================== */
+
+function loadMessages(){
+
+  const box =
+    document.getElementById(
+      "messages"
+    );
+
+  box.innerHTML="";
+
+
+  const messages =
+    getMessages(currentChat);
+
+
+  if(messages.length===0){
+
+    const date =
+      document.createElement("div");
+
+    date.className="chat-date";
+
+    date.textContent="Today";
+
+    box.appendChild(date);
+
+
+    if(
+      currentChat==="JX Friend"
+    ){
+
+      addMessageToScreen({
+        id:1,
+        type:"text",
+        text:
+          "Hey! Welcome to JX CHAT 💜",
+        mine:false,
+        time:"Now"
+      });
+
+    }
+
+    else if(
+      currentChat==="John"
+    ){
+
+      addMessageToScreen({
+        id:2,
+        type:"text",
+        text:
+          "See you later!",
+        mine:false,
+        time:"Now"
+      });
+
+    }
+
+    else if(
+      currentChat==="JX Team"
+    ){
+
+      addMessageToScreen({
+        id:3,
+        type:"text",
+        text:
+          "Welcome to the group!",
+        mine:false,
+        time:"Now"
+      });
+
+    }
+
+  }else{
+
+    messages.forEach(
+      addMessageToScreen
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   DISPLAY MESSAGE
+================================================== */
+
+function addMessageToScreen(msg){
+
+  const messages =
+    document.getElementById(
+      "messages"
+    );
+
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+  row.className =
+    "message-row " +
+    (
+      msg.mine
+      ? "me"
+      : "them"
+    );
+
+
+  const bubble =
+    document.createElement(
+      "div"
+    );
+
+  bubble.className="bubble";
+
+
+  if(msg.reply){
+
+    const replyBox =
+      document.createElement(
+        "div"
+      );
+
+    replyBox.className="reply-box";
+
+    replyBox.textContent =
+      "↩ " + msg.reply;
+
+    bubble.appendChild(
+      replyBox
+    );
+
+  }
+
+
+  if(msg.type==="image"){
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+    img.src=msg.data;
+
+    img.className=
+      "photo-message";
+
+    bubble.appendChild(img);
+
+  }
+
+  else if(msg.type==="file"){
+
+    const fileBox =
+      document.createElement(
+        "div"
+      );
+
+    fileBox.className=
+      "file-message";
+
+
+    const icon =
+      document.createElement(
+        "div"
+      );
+
+    icon.className=
+      "file-icon";
+
+    icon.textContent="📄";
+
+
+    const name =
+      document.createElement(
+        "div"
+      );
+
+    name.className=
+      "file-name";
+
+    name.textContent=
+      msg.name;
+
+
+    fileBox.appendChild(icon);
+
+    fileBox.appendChild(name);
+
+    bubble.appendChild(fileBox);
+
+  }
+
+  else if(msg.type==="audio"){
+
+    const audio =
+      document.createElement(
+        "audio"
+      );
+
+    audio.controls=true;
+
+    audio.src=msg.data;
+
+    audio.className=
+      "audio-message";
+
+    bubble.appendChild(audio);
+
+  }
+
+  else{
+
+    const text =
+      document.createElement(
+        "div"
+      );
+
+    text.textContent=
+      msg.text;
+
+    bubble.appendChild(text);
+
+  }
+
+
+  const time =
+    document.createElement(
+      "div"
+    );
+
+  time.className=
+    "message-time";
+
+  time.textContent =
+    msg.time || "Now";
+
+
+  bubble.appendChild(time);
+
+
+  const reaction =
+    document.createElement(
+      "div"
+    );
+
+  reaction.className=
+    "reaction-display";
+
+  reaction.textContent =
+    msg.reaction || "";
+
+
+  bubble.appendChild(
+    reaction
+  );
+
+
+  bubble.onclick=function(){
+
+    messageMenu(
+      msg.id
+    );
+
+  };
+
+
+  row.appendChild(
+    bubble
+  );
+
+  messages.appendChild(
+    row
+  );
+
+}
+
+
+/* ==================================================
+   SEND TEXT
+================================================== */
+
+function sendMessage(){
+
+  const input =
+    document.getElementById(
+      "chatInput"
+    );
+
+
+  const text =
+    input.value.trim();
+
+
+  if(text===""){
+    return;
+  }
+
+
+  const messages =
+    getMessages(currentChat);
+
+
+  messages.push({
+
+    id:Date.now(),
+
+    type:"text",
+
+    text:text,
+
+    mine:true,
+
+    reaction:"",
+
+    reply:replyingTo,
+
+    time:getTime()
+
+  });
+
+
+  saveMessages(
+    currentChat,
+    messages
+  );
+
+
+  input.value="";
+
+  cancelReply();
+
+  loadMessages();
+
+  updateHomeChats();
+
+
+  /* DEMO AUTO RESPONSE */
+
+  setTimeout(function(){
+
+    const m =
+      getMessages(
+        currentChat
+      );
+
+
+    m.push({
+
+      id:Date.now(),
+
+      type:"text",
+
+      text:
+        getAutoReply(text),
+
+      mine:false,
+
+      reaction:"",
+
+      reply:"",
+
+      time:getTime()
+
+    });
+
+
+    saveMessages(
+      currentChat,
+      m
+    );
+
+
+    if(
+      currentChat !== ""
+    ){
+
+      addUnread(
+        currentChat
+      );
+
+    }
+
+
+    loadMessages();
+
+    updateHomeChats();
+
+  },900);
+
+}
+
+
+/* ==================================================
+   AUTO REPLY
+================================================== */
+
+function getAutoReply(text){
+
+  const t =
+    text.toLowerCase();
+
+
+  if(
+    t.includes("hello") ||
+    t.includes("hi") ||
+    t.includes("hey")
+  ){
+
+    return "Hey! 👋";
+
+  }
+
+  if(
+    t.includes("kamusta") ||
+    t.includes("kumusta")
+  ){
+
+    return "Okay naman! 😎 Ikaw?";
+
+  }
+
+  if(
+    t.includes("good morning")
+  ){
+
+    return "Good morning! ☀️";
+
+  }
+
+  if(
+    t.includes("good night")
+  ){
+
+    return "Good night! 🌙";
+
+  }
+
+  if(
+    t.includes("love")
+  ){
+
+    return "Awww ❤️";
+
+  }
+
+  return "Nice! 😎";
+
+}
+
+
+/* ==================================================
+   TIME
+================================================== */
+
+function getTime(){
+
+  return new Date()
+    .toLocaleTimeString(
+      [],
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+}
+
+
+/* ==================================================
+   MESSAGE MENU
+================================================== */
+
+function messageMenu(id){
+
+  const messages =
+    getMessages(
+      currentChat
+    );
+
+
+  const msg =
+    messages.find(
+      m => m.id===id
+    );
+
+
+  if(!msg){
+    return;
+  }
+
+
+  const choice =
+    prompt(
+      "MESSAGE OPTIONS\n\n" +
+      "1 - ❤️ Love\n" +
+      "2 - 👍 Like\n" +
+      "3 - 😂 Haha\n" +
+      "4 - 😮 Wow\n" +
+      "5 - 😢 Sad\n" +
+      "6 - 😡 Angry\n" +
+      "7 - ↩️ Reply\n" +
+      "8 - ✏️ Edit\n" +
+      "9 - 📋 Copy\n" +
+      "10 - 🗑️ Delete"
+    );
+
+
+  if(choice==="1"){
+
+    msg.reaction="❤️";
+
+  }
+
+  else if(choice==="2"){
+
+    msg.reaction="👍";
+
+  }
+
+  else if(choice==="3"){
+
+    msg.reaction="😂";
+
+  }
+
+  else if(choice==="4"){
+
+    msg.reaction="😮";
+
+  }
+
+  else if(choice==="5"){
+
+    msg.reaction="😢";
+
+  }
+
+  else if(choice==="6"){
+
+    msg.reaction="😡";
+
+  }
+
+  else if(choice==="7"){
+
+    replyToMessage(
+      msg
+    );
+
+    return;
+
+  }
+
+  else if(choice==="8"){
+
+    if(
+      !msg.mine ||
+      msg.type!=="text"
+    ){
+
+      alert(
+        "You can only edit your own text messages."
+      );
+
+      return;
+    }
+
+
+    const newText =
+      prompt(
+        "Edit message:",
+        msg.text
+      );
+
+
+    if(
+      newText &&
+      newText.trim()
+    ){
+
+      msg.text =
+        newText.trim();
+
+    }else{
+
+      return;
+
+    }
+
+  }
+
+  else if(choice==="9"){
+
+    if(
+      navigator.clipboard
+    ){
+
+      navigator.clipboard.writeText(
+        msg.text || ""
+      );
+
+      alert(
+        "Message copied! 📋"
+      );
+
+    }
+
+    return;
+
+  }
+
+  else if(choice==="10"){
+
+    if(
+      !confirm(
+        "Delete this message?"
+      )
+    ){
+
+      return;
+
+    }
+
+
+    const newMessages =
+      messages.filter(
+        m => m.id!==id
+      );
+
+
+    saveMessages(
+      currentChat,
+      newMessages
+    );
+
+
+    loadMessages();
+
+    return;
+
+  }
+
+  else{
+
+    return;
+
+  }
+
+
+  saveMessages(
+    currentChat,
+    messages
+  );
+
+
+  loadMessages();
+
+}
+
+
+/* ==================================================
+   REPLY
+================================================== */
+
+function replyToMessage(msg){
+
+  replyingTo =
+    msg.text ||
+    (
+      msg.type==="image"
+      ? "📷 Photo"
+      : msg.type==="file"
+      ? "📎 File"
+      : "🎤 Voice message"
+    );
+
+
+  document.getElementById(
+    "replyText"
+  ).textContent =
+    replyingTo;
+
+
+  document.getElementById(
+    "replyPreview"
+  ).style.display="flex";
+
+
+  document.getElementById(
+    "chatInput"
+  ).focus();
+
+}
+
+
+function cancelReply(){
+
+  replyingTo="";
+
+
+  const preview =
+    document.getElementById(
+      "replyPreview"
+    );
+
+
+  if(preview){
+
+    preview.style.display="none";
+
+  }
+
+}
+
+
+/* ==================================================
+   PHOTO
+================================================== */
+
+function sendPhoto(event){
+
+  const file =
+    event.target.files[0];
+
+
+  if(!file){
+    return;
+  }
+
+
+  if(
+    !file.type.startsWith("image/")
+  ){
+
+    alert(
+      "Please select an image."
+    );
+
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload=function(e){
+
+    const messages =
+      getMessages(
+        currentChat
+      );
+
+
+    messages.push({
+
+      id:Date.now(),
+
+      type:"image",
+
+      data:e.target.result,
+
+      mine:true,
+
+      reaction:"",
+
+      reply:replyingTo,
+
+      time:getTime()
+
+    });
+
+
+    saveMessages(
+      currentChat,
+      messages
+    );
+
+
+    cancelReply();
+
+    loadMessages();
+
+    updateHomeChats();
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+  event.target.value="";
+
+}
+
+
+/* ==================================================
+   FILE
+================================================== */
+
+function sendFile(event){
+
+  const file =
+    event.target.files[0];
+
+
+  if(!file){
+    return;
+  }
+
+
+  const messages =
+    getMessages(
+      currentChat
+    );
+
+
+  messages.push({
+
+    id:Date.now(),
+
+    type:"file",
+
+    name:file.name,
+
+    size:formatFileSize(
+      file.size
+    ),
+
+    mine:true,
+
+    reaction:"",
+
+    reply:replyingTo,
+
+    time:getTime()
+
+  });
+
+
+  saveMessages(
+    currentChat,
+    messages
+  );
+
+
+  cancelReply();
+
+  loadMessages();
+
+  updateHomeChats();
+
+
+  event.target.value="";
+
+}
+
+
+function formatFileSize(bytes){
+
+  if(bytes<1024){
+
+    return bytes+" B";
+
+  }
+
+  if(bytes<1024*1024){
+
+    return (
+      bytes/1024
+    ).toFixed(1)+" KB";
+
+  }
+
+  return (
+    bytes/(1024*1024)
+  ).toFixed(1)+" MB";
+
+}
+
+
+/* ==================================================
+   VOICE RECORDING
+================================================== */
+
+async function recordVoice(){
+
+  const button =
+    document.getElementById(
+      "voiceButton"
+    );
+
+
+  if(mediaRecorder){
+
+    mediaRecorder.stop();
+
+    return;
+
+  }
+
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    alert(
+      "Voice recording is not supported by this browser."
+    );
+
+    return;
+  }
+
+
+  try{
+
+    const stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio:true
+        });
+
+
+    mediaRecorder =
+      new MediaRecorder(
+        stream
+      );
+
+
+    voiceChunks=[];
+
+
+    mediaRecorder.ondataavailable =
+      function(event){
+
+        voiceChunks.push(
+          event.data
+        );
+
+      };
+
+
+    mediaRecorder.onstop =
+      function(){
+
+        const blob =
+          new Blob(
+            voiceChunks,
+            {
+              type:"audio/webm"
+            }
+          );
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onloadend =
+          function(){
+
+            const messages =
+              getMessages(
+                currentChat
+              );
+
+
+            messages.push({
+
+              id:Date.now(),
+
+              type:"audio",
+
+              data:reader.result,
+
+              mine:true,
+
+              reaction:"",
+
+              reply:replyingTo,
+
+              time:getTime()
+
+            });
+
+
+            saveMessages(
+              currentChat,
+              messages
+            );
+
+
+            cancelReply();
+
+            loadMessages();
+
+            updateHomeChats();
+
+          };
+
+
+        reader.readAsDataURL(
+          blob
+        );
+
+
+        stream
+          .getTracks()
+          .forEach(
+            track =>
+              track.stop()
+          );
+
+
+        mediaRecorder=null;
+
+        button.textContent="🎤";
+
+      };
+
+
+    mediaRecorder.start();
+
+    button.textContent="⏹️";
+
+
+    alert(
+      "Recording started! Press the microphone button again to stop. 🎤"
+    );
+
+  }
+
+  catch(error){
+
+    alert(
+      "Microphone permission was denied."
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   CHAT OPTIONS
+================================================== */
+
+function chatOptions(){
+
+  const choice =
+    prompt(
+      "CHAT OPTIONS\n\n" +
+      "1 - 🗑️ Clear Chat\n" +
+      "2 - 🔕 Toggle Notification"
+    );
+
+
+  if(choice==="1"){
+
+    if(
+      confirm(
+        "Clear all messages in this chat?"
+      )
+    ){
+
+      localStorage.removeItem(
+        chatKey(currentChat)
+      );
+
+      loadMessages();
+
+      updateHomeChats();
+
+    }
+
+  }
+
+  else if(choice==="2"){
+
+    alert(
+      "Chat notification setting saved locally. 🔔"
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   CLOSE CHAT
+================================================== */
+
+function closeChat(){
+
+  cancelReply();
+
+  showHome();
+
+}
+
+
+/* ==================================================
+   ENTER
+================================================== */
+
+function handleEnter(event){
+
+  if(
+    event.key==="Enter"
+  ){
+
+    event.preventDefault();
+
+    sendMessage();
+
+  }
+
+}
+
+
+/* ==================================================
+   HOME CHAT PREVIEW
+================================================== */
+
+function updateHomeChats(){
+
+  const names=[
+    "JX Friend",
+    "John",
+    "JX Team"
+  ];
+
+
+  names.forEach(
+    function(name){
+
+      const messages =
+        getMessages(name);
+
+
+      if(messages.length===0)
+        return;
+
+
+      const last =
+        messages[
+          messages.length-1
+        ];
+
+
+      let preview="";
+
+
+      if(last.type==="image"){
+
+        preview="📷 Photo";
+
+      }
+
+      else if(last.type==="file"){
+
+        preview="📎 "+last.name;
+
+      }
+
+      else if(last.type==="audio"){
+
+        preview="🎤 Voice message";
+
+      }
+
+      else{
+
+        preview=last.text;
+
+      }
+
+
+      const id =
+        "last-" +
+        name.replace(
+          / /g,
+          "-"
+        );
+
+
+      const element =
+        document.getElementById(
+          id
+        );
+
+
+      if(element){
+
+        element.textContent=
+          preview;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   UNREAD
+================================================== */
+
+function addUnread(name){
+
+  const id =
+    "unread-" +
+    name.replace(
+      / /g,
+      "-"
+    );
+
+
+  const badge =
+    document.getElementById(
+      id
+    );
+
+
+  if(!badge){
+    return;
+  }
+
+
+  let count =
+    parseInt(
+      badge.textContent
+    ) || 0;
+
+
+  count++;
+
+
+  badge.textContent=
+    count;
+
+
+  badge.style.display="flex";
+
+}
+
+
+function clearUnread(name){
+
+  const id =
+    "unread-" +
+    name.replace(
+      / /g,
+      "-"
+    );
+
+
+  const badge =
+    document.getElementById(
+      id
+    );
+
+
+  if(badge){
+
+    badge.textContent="0";
+
+    badge.style.display="none";
+
+  }
+
+}
+
+
+/* ==================================================
+   STORIES
+================================================== */
+
+function addStory(){
+
+  const input =
+    document.createElement(
+      "input"
+    );
+
+
+  input.type="file";
+
+  input.accept="image/*";
+
+
+  input.onchange =
+    function(event){
+
+      const file =
+        event.target.files[0];
+
+
+      if(!file)
+        return;
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function(e){
+
+          localStorage.setItem(
+            "jxStory",
+            e.target.result
+          );
+
+
+          alert(
+            "Your JX Story was added! 🟣"
+          );
+
+        };
+
+
+      reader.readAsDataURL(file);
+
+    };
+
+
+  input.click();
+
+}
+
+
+function viewStory(){
+
+  const story =
+    localStorage.getItem(
+      "jxStory"
+    );
+
+
+  document.getElementById(
+    "storyModal"
+  ).style.display="flex";
+
+
+  const image =
+    document.getElementById(
+      "storyImage"
+    );
+
+  const noImage =
+    document.getElementById(
+      "storyNoImage"
+    );
+
+
+  if(story){
+
+    image.src=story;
+
+    image.style.display="block";
+
+    noImage.style.display="none";
+
+  }else{
+
+    image.style.display="none";
+
+    noImage.style.display="block";
+
+  }
+
+}
+
+
+function closeStory(){
+
+  document.getElementById(
+    "storyModal"
+  ).style.display="none";
+
+}
+
+
+/* ==================================================
+   NEW CHAT
+================================================== */
+
+function newChat(){
+
+  const name =
+    prompt(
+      "Enter chat name:"
+    );
+
+
+  if(
+    !name ||
+    !name.trim()
+  ){
+
+    return;
+
+  }
+
+
+  const clean =
+    name.trim();
+
+
+  addDynamicChat(
+    clean
+  );
+
+
+  openChat(clean);
+
+}
+
+
+function addDynamicChat(name){
+
+  const container =
+    document.getElementById(
+      "dynamicChats"
+    );
+
+
+  if(
+    document.querySelector(
+      '[data-name="' +
+      CSS.escape(name) +
+      '"]'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const item =
+    document.createElement(
+      "div"
+    );
+
+
+  item.className=
+    "chat-item";
+
+  item.setAttribute(
+    "data-name",
+    name
+  );
+
+
+  item.onclick =
+    function(){
+
+      openChat(name);
+
+    };
+
+
+  item.innerHTML = `
+
+    <div class="avatar">
+      ${getInitials(name)}
+      <div class="online"></div>
+    </div>
+
+    <div class="chat-info">
+
+      <div class="chat-name">
+        ${escapeHTML(name)}
+      </div>
+
+      <div class="last-message">
+        New chat
+      </div>
+
+    </div>
+
+    <div class="chat-time">
+      Now
+    </div>
+
+  `;
+
+
+  container.appendChild(
+    item
+  );
+
+}
+
+
+function loadDynamicChats(){
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "jxDynamicChats"
+      ) || "[]"
+    );
+
+
+  saved.forEach(
+    addDynamicChat
+  );
+
+}
+
+
+/* ==================================================
+   CREATE GROUP
+================================================== */
+
+function createGroup(){
+
+  const name =
+    prompt(
+      "Enter group name:"
+    );
+
+
+  if(
+    !name ||
+    !name.trim()
+  ){
+
+    return;
+
+  }
+
+
+  const groupName =
+    "👥 " +
+    name.trim();
+
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "jxDynamicChats"
+      ) || "[]"
+    );
+
+
+  if(
+    !saved.includes(
+      groupName
+    )
+  ){
+
+    saved.push(
+      groupName
+    );
+
+
+    localStorage.setItem(
+      "jxDynamicChats",
+      JSON.stringify(saved)
+    );
+
+  }
+
+
+  addDynamicChat(
+    groupName
+  );
+
+
+  alert(
+    "Group created! 👥"
+  );
+
+
+  openChat(
+    groupName
+  );
+
+}
+
+
+/* ==================================================
+   FRIENDS
+================================================== */
+
+function friendsNav(){
+
+  const friends =
+    JSON.parse(
+      localStorage.getItem(
+        "jxFriends"
+      ) || "[]"
+    );
+
+
+  let text =
+    "👥 JX FRIENDS\n\n";
+
+
+  if(friends.length===0){
+
+    text +=
+      "No friends yet.\n\n" +
+      "You can create local chats using +.";
+
+  }else{
+
+    friends.forEach(
+      function(friend,i){
+
+        text +=
+          (i+1) +
+          ". " +
+          friend +
+          "\n";
+
+      }
+    );
+
+  }
+
+
+  const add =
+    prompt(
+      text +
+      "\n\nType a name to add a friend, or CANCEL:"
+    );
+
+
+  if(
+    !add ||
+    !add.trim()
+  ){
+
+    return;
+
+  }
+
+
+  const friend =
+    add.trim();
+
+
+  if(
+    !friends.includes(
+      friend
+    )
+  ){
+
+    friends.push(
+      friend
+    );
+
+
+    localStorage.setItem(
+      "jxFriends",
+      JSON.stringify(friends)
+    );
+
+  }
+
+
+  addDynamicChat(
+    friend
+  );
+
+
+  const dynamic =
+    JSON.parse(
+      localStorage.getItem(
+        "jxDynamicChats"
+      ) || "[]"
+    );
+
+
+  if(
+    !dynamic.includes(friend)
+  ){
+
+    dynamic.push(friend);
+
+    localStorage.setItem(
+      "jxDynamicChats",
+      JSON.stringify(dynamic)
+    );
+
+  }
+
+
+  alert(
+    friend +
+    " added to local friends! 👥"
+  );
+
+}
+
+
+/* ==================================================
+   SETTINGS
+================================================== */
+
+function settingsNav(){
+
+  document.getElementById(
+    "settingsPage"
+  ).style.display="block";
+
+}
+
+
+function closeSettings(){
+
+  document.getElementById(
+    "settingsPage"
+  ).style.display="none";
+
+}
+
+
+function toggleTheme(){
+
+  document.body.classList.toggle(
+    "light"
+  );
+
+
+  localStorage.setItem(
+    "jxTheme",
+    document.body.classList.contains(
+      "light"
+    )
+    ? "light"
+    : "dark"
+  );
+
+}
+
+
+function loadTheme(){
+
+  if(
+    localStorage.getItem(
+      "jxTheme"
+    )==="light"
+  ){
+
+    document.body.classList.add(
+      "light"
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   NOTIFICATIONS
+================================================== */
+
+function testNotification(){
+
+  if(
+    "Notification" in window
+  ){
+
+    if(
+      Notification.permission ===
+      "granted"
+    ){
+
+      new Notification(
+        "JX CHAT 💜",
+        {
+          body:
+            "You have a new message!"
+        }
+      );
+
+    }
+
+    else if(
+      Notification.permission !==
+      "denied"
+    ){
+
+      Notification.requestPermission()
+        .then(
+          function(permission){
+
+            if(
+              permission==="granted"
+            ){
+
+              new Notification(
+                "JX CHAT 💜",
+                {
+                  body:
+                    "Notifications enabled!"
+                }
+              );
+
+            }
+
+          }
+        );
+
+    }
+
+    else{
+
+      alert(
+        "Notifications are blocked in your browser."
+      );
+
+    }
+
+  }else{
+
+    alert(
+      "Browser notifications are not supported."
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   CLEAR ALL DATA
+================================================== */
+
+function clearAllData(){
+
+  const answer =
+    confirm(
+      "This will delete your local JX CHAT data, profile, stories and chats.\n\nContinue?"
+    );
+
+
+  if(!answer)
+    return;
+
+
+  localStorage.clear();
+
+
+  alert(
+    "Local JX CHAT data cleared."
+  );
+
+
+  location.reload();
+
+}
+
+
+/* ==================================================
+   MINI GAMES
+================================================== */
+
+function openGames(){
+
+  document.getElementById(
+    "gamesModal"
+  ).style.display="flex";
+
+}
+
+
+function closeGames(){
+
+  document.getElementById(
+    "gamesModal"
+  ).style.display="none";
+
+}
+
+
+function rps(){
+
+  const choice =
+    prompt(
+      "✊ ROCK PAPER SCISSORS\n\n" +
+      "1 = Rock\n" +
+      "2 = Paper\n" +
+      "3 = Scissors"
+    );
+
+
+  if(
+    !["1","2","3"].includes(
+      choice
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const computer =
+    Math.floor(
+      Math.random()*3
+    )+1;
+
+
+  const names=[
+    "",
+    "✊ Rock",
+    "✋ Paper",
+    "✌️ Scissors"
+  ];
+
+
+  let result;
+
+
+  if(
+    choice==computer
+  ){
+
+    result="DRAW! 😐";
+
+  }
+
+  else if(
+    (
+      choice==1 &&
+      computer==3
+    ) ||
+    (
+      choice==2 &&
+      computer==1
+    ) ||
+    (
+      choice==3 &&
+      computer==2
+    )
+  ){
+
+    result=
+      "YOU WIN! 🏆🔥";
+
+  }
+
+  else{
+
+    result=
+      "YOU LOSE! 😂";
+
+  }
+
+
+  document.getElementById(
+    "gameResult"
+  ).innerHTML =
+
+    "You: " +
+    names[choice] +
+
+    "<br>Computer: " +
+    names[computer] +
+
+    "<br><br><b>" +
+    result +
+    "</b>";
+
+}
+
+
+function quiz(){
+
+  const answer =
+    prompt(
+      "🧠 JX QUIZ\n\n" +
+      "What does HTML stand for?\n\n" +
+      "A. Hyper Text Markup Language\n" +
+      "B. High Tech Modern Language\n" +
+      "C. Home Tool Markup Language"
+    );
+
+
+  if(!answer)
+    return;
+
+
+  if(
+    answer.toUpperCase()==="A"
+  ){
+
+    document.getElementById(
+      "gameResult"
+    ).innerHTML =
+      "🎉 CORRECT! +100 JX POINTS";
+
+  }else{
+
+    document.getElementById(
+      "gameResult"
+    ).innerHTML =
+      "❌ Wrong! Answer: A";
+
+  }
+
+}
+
+
+function ticTacToe(){
+
+  let board=[
+    " "," "," ",
+    " "," "," ",
+    " "," "," "
+  ];
+
+
+  let moves=0;
+
+
+  while(
+    moves<9
+  ){
+
+    const display =
+      board[0]+" | "+
+      board[1]+" | "+
+      board[2]+"\n"+
+      "---------\n"+
+      board[3]+" | "+
+      board[4]+" | "+
+      board[5]+"\n"+
+      "---------\n"+
+      board[6]+" | "+
+      board[7]+" | "+
+      board[8];
+
+
+    const choice =
+      prompt(
+        "🎯 TIC-TAC-TOE\n\n"+
+        display+
+        "\n\nChoose position 1-9"
+      );
+
+
+    if(choice===null)
+      return;
+
+
+    const index =
+      parseInt(choice)-1;
+
+
+    if(
+      index<0 ||
+      index>8 ||
+      board[index]!==" "
+    ){
+
+      alert(
+        "Invalid position."
+      );
+
+      continue;
+
+    }
+
+
+    board[index]="X";
+
+
+    if(
+      checkWin(
+        board,
+        "X"
+      )
+    ){
+
+      alert(
+        "🏆 YOU WIN!"
+      );
+
+      return;
+
+    }
+
+
+    moves++;
+
+
+    if(moves>=9)
+      break;
+
+
+    const empty =
+      board
+        .map(
+          function(value,index){
+
+            return value===" "
+              ? index
+              : null;
+
+          }
+        )
+        .filter(
+          function(value){
+
+            return value!==null;
+
+          }
+        );
+
+
+    const ai =
+      empty[
+        Math.floor(
+          Math.random()*
+          empty.length
+        )
+      ];
+
+
+    board[ai]="O";
+
+
+    if(
+      checkWin(
+        board,
+        "O"
+      )
+    ){
+
+      alert(
+        "😂 COMPUTER WINS!"
+      );
+
+      return;
+
+    }
+
+
+    moves++;
+
+  }
+
+
+  alert(
+    "DRAW! 😐"
+  );
+
+}
+
+
+function checkWin(board,p){
+
+  const combos=[
+
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+
+    [0,4,8],
+    [2,4,6]
+
+  ];
+
+
+  return combos.some(
+    function(c){
+
+      return(
+        board[c[0]]===p &&
+        board[c[1]]===p &&
+        board[c[2]]===p
+      );
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   ESCAPE HTML
+================================================== */
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+
+  div.textContent =
+    text;
+
+
+  return div.innerHTML;
+
+}
+
+
+/* ==================================================
+   STARTUP
+================================================== */
+
+window.addEventListener(
+  "load",
+  function(){
+
+    loadTheme();
+
+    updatePfp();
+
+    loadDynamicChats();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
