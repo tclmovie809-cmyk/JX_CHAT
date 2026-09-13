@@ -4761,6 +4761,24 @@ window.addEventListener(
 );
 
 </script>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
+  const firebaseConfig = {
+  apiKey: "AIzaSyDadmCElVoQQwqTl0olAS8ZsFSUWqiAc_M",
+  authDomain: "jx-chat-24.firebaseapp.com",
+  projectId: "jx-chat-24",
+  storageBucket: "jx-chat-24.firebasestorage.app",
+  messagingSenderId: "800867037680",
+  appId: "1:800867037680:web:60b495823b3bae83232d35"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  console.log("JX CHAT Firebase connected!");
+</script>
 </body>
 </html>
